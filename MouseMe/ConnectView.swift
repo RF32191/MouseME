@@ -39,7 +39,7 @@ struct ConnectView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("How to connect").font(.body.weight(.semibold))
                                 Text("The easiest path for your computer")
-                                    .font(.caption).foregroundStyle(.secondary)
+                                    .font(.caption).foregroundStyle(AppTheme.labelTertiary)
                             }
                         } icon: {
                             Image(systemName: "wand.and.stars").foregroundStyle(.tint)
@@ -67,6 +67,12 @@ struct ConnectView: View {
                     }
                 }
             }
+            .appDarkListStyle()
+            .listStyle(.insetGrouped)
+            .listRowBackground(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(AppTheme.card)
+            )
             .navigationTitle("Connect")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -113,7 +119,7 @@ struct ConnectView: View {
                     HStack {
                         Label("Transport", systemImage: transportSymbol)
                         Spacer()
-                        Text(transportName).foregroundStyle(.secondary)
+                        Text(transportName).foregroundStyle(AppTheme.labelTertiary)
                     }
                     if let ms = state.client.latencyMs {
                         HStack {
@@ -170,7 +176,7 @@ struct ConnectView: View {
             if browser.services.isEmpty && browser.isBrowsing {
                 Text("No computers found yet. On macOS, open the MouseMe app. On Windows / Linux, run the helper script.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
             }
             ForEach(browser.services) { svc in
                 Button {
@@ -182,11 +188,11 @@ struct ConnectView: View {
                         VStack(alignment: .leading) {
                             Text(svc.name).font(.body)
                             Text("Bonjour · _mouseme._tcp")
-                                .font(.caption).foregroundStyle(.secondary)
+                                .font(.caption).foregroundStyle(AppTheme.labelTertiary)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.labelTertiary)
                     }
                 }
                 .buttonStyle(.plain)
@@ -240,10 +246,10 @@ struct ConnectView: View {
                     Label("Hosting at \(info.ip ?? "this phone"):\(info.port)",
                           systemImage: "wifi.router.fill")
                     if let who = info.clientLabel {
-                        Text("Computer: \(who)").font(.caption).foregroundStyle(.secondary)
+                        Text("Computer: \(who)").font(.caption).foregroundStyle(AppTheme.labelTertiary)
                     } else {
                         Text("Waiting for computer to connect…")
-                            .font(.caption).foregroundStyle(.secondary)
+                            .font(.caption).foregroundStyle(AppTheme.labelTertiary)
                     }
                 }
                 Button(role: .destructive) {
@@ -279,7 +285,7 @@ struct ConnectView: View {
                 .foregroundStyle(.orange)
             Text("MouseMe can't discover computers, host on this phone, or connect over Wi-Fi without it. Enable “Local Network” for MouseMe in Settings → Privacy & Security.")
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppTheme.labelTertiary)
             #if os(iOS)
             Button {
                 if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -299,7 +305,7 @@ struct ConnectView: View {
         switch state.client.status {
         case .idle:
             Label("Not connected", systemImage: "circle.dashed")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppTheme.labelTertiary)
         case .connecting(let label):
             Label("\(label)", systemImage: "ellipsis.circle")
         case .connected(let label):
@@ -374,16 +380,16 @@ private struct DiagnosticsView: View {
             Section("This phone") {
                 LabeledContent("Local IP") {
                     Text(HostTCPTransport.bestLocalIP() ?? "no network")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.labelTertiary)
                         .monospacedDigit()
                 }
             }
             Section("Bonjour") {
                 LabeledContent("State") {
-                    Text(browser.isBrowsing ? "Browsing" : "Idle").foregroundStyle(.secondary)
+                    Text(browser.isBrowsing ? "Browsing" : "Idle").foregroundStyle(AppTheme.labelTertiary)
                 }
                 LabeledContent("Helpers found") {
-                    Text("\(browser.services.count)").foregroundStyle(.secondary)
+                    Text("\(browser.services.count)").foregroundStyle(AppTheme.labelTertiary)
                 }
                 if let err = browser.lastErrorMessage {
                     Text(err).font(.caption).foregroundStyle(.red)

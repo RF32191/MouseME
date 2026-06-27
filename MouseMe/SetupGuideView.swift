@@ -24,7 +24,7 @@ struct SetupGuideView: View {
             Section {
                 Text("Pick the path that fits your computer. The Mac path needs no script at all.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
             }
 
             Section {
@@ -47,7 +47,7 @@ struct SetupGuideView: View {
                 numbered(6, "When MouseMe opens on your Mac, leave the **Receiving** switch turned on. macOS will prompt for **Accessibility** permission the first time — click **Open Settings**, find MouseMe in the list, and toggle it on.")
                 Text("That's it on the Mac side. The window shows `Listening on port 8237` and your Mac's IP. Keep this app running.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
             }
 
             Section("On your iPhone — connect to your Mac") {
@@ -57,7 +57,7 @@ struct SetupGuideView: View {
                 numbered(4, "Status changes to **Connected**. Now switch to the **Mouse** tab and start moving the cursor — by touch, gyro, or sliding the phone on the desk.")
                 Text("If the Mac doesn’t appear automatically, tap **Add manually** below and type the IP shown in the MouseMe app on the Mac.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
             }
 
             Section("Windows / Linux — get the helper onto your computer") {
@@ -74,7 +74,7 @@ struct SetupGuideView: View {
                 } else {
                     Text("Helper script not bundled. You can also grab it from the project's `Server/` folder.")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.labelTertiary)
                 }
                 Text("Install Python dependencies once:")
                     .font(.footnote)
@@ -85,7 +85,7 @@ struct SetupGuideView: View {
                 if interfaces.isEmpty {
                     Text("No active IPv4 interfaces. Connect to Wi-Fi or turn on Personal Hotspot.")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.labelTertiary)
                 }
                 ForEach(interfaces) { ifc in
                     HStack {
@@ -93,7 +93,7 @@ struct SetupGuideView: View {
                         Spacer()
                         Text(ifc.ip)
                             .monospacedDigit()
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.labelTertiary)
                     }
                 }
                 Button {
@@ -170,9 +170,10 @@ struct SetupGuideView: View {
             Section("First-time computer setup") {
                 Text("macOS: grant Terminal / Python “Accessibility” in System Settings → Privacy & Security → Accessibility so the helper can move the cursor.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
             }
         }
+        .appDarkListStyle()
         .navigationTitle("How to connect")
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -198,7 +199,7 @@ struct SetupGuideView: View {
 
     private func bullet(_ text: String) -> some View {
         HStack(alignment: .top, spacing: 6) {
-            Text("•").foregroundStyle(.secondary)
+            Text("•").foregroundStyle(AppTheme.labelTertiary)
             Text(text)
         }
     }
@@ -231,7 +232,7 @@ struct SetupGuideView: View {
                     .font(.callout)
                 ForEach(steps.indices, id: \.self) { i in
                     HStack(alignment: .top, spacing: 6) {
-                        Text("\(i + 1).").foregroundStyle(.secondary)
+                        Text("\(i + 1).").foregroundStyle(AppTheme.labelTertiary)
                         Text(steps[i])
                     }
                     .font(.footnote)

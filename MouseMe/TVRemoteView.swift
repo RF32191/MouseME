@@ -48,16 +48,22 @@ struct TVRemoteView: View {
     private static let layoutKey = "MouseMe.tvRemoteLayout"
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 18) {
-                header
-                discoverySection
-                layoutPicker
-                remoteBody
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 18) {
+                    header
+                    discoverySection
+                    layoutPicker
+                    remoteBody
+                }
+                .padding()
             }
-            .padding()
+            .appScreenBackground()
+            .navigationTitle("TV Remote")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
         }
-        .navigationTitle("TV Remote")
     }
 
     // MARK: - Chrome
@@ -68,12 +74,12 @@ struct TVRemoteView: View {
                 .font(.system(size: 28, weight: .semibold))
                 .foregroundStyle(.tint)
             Text(state.client.isConnected ? "Ready — commands go through your Mac" : "Connect to your Mac first")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+                .font(.footnote.weight(.medium))
+                .foregroundStyle(AppTheme.labelSecondary)
             if !selectedTV.isEmpty {
                 Label(selectedTV, systemImage: "checkmark.circle.fill")
                     .font(.caption)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(AppTheme.success)
             }
         }
         .frame(maxWidth: .infinity)
@@ -99,7 +105,7 @@ struct TVRemoteView: View {
 
             Text(.init(discovery.status))
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppTheme.labelTertiary)
 
             if !discovery.devices.isEmpty {
                 ForEach(discovery.devices) { tv in
@@ -109,17 +115,18 @@ struct TVRemoteView: View {
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(tv.name).font(.body.weight(.medium))
-                                Text(tv.ip).font(.caption.monospaced()).foregroundStyle(.secondary)
+                                Text(tv.ip).font(.caption.monospaced()).foregroundStyle(AppTheme.labelTertiary)
                             }
                             Spacer()
                             if selectedTV == tv.ip {
-                                Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                                Image(systemName: "checkmark.circle.fill").foregroundStyle(AppTheme.success)
                             } else {
                                 Text("Use").font(.caption.weight(.semibold))
                             }
                         }
                         .padding(12)
-                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        .background(AppTheme.cardRaised, in: RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(AppTheme.border, lineWidth: 1))
                     }
                     .buttonStyle(.plain)
                 }
@@ -142,7 +149,7 @@ struct TVRemoteView: View {
             }
         }
         .padding(14)
-        .background(Color.accentColor.opacity(0.06), in: RoundedRectangle(cornerRadius: 16))
+        .appCard(radius: 16)
     }
 
     private var layoutPicker: some View {

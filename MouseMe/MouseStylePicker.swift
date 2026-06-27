@@ -23,6 +23,7 @@ struct MouseStylePicker: View {
             }
             .padding()
         }
+        .appScreenBackground()
         .navigationTitle("Mouse Style")
     }
 }
@@ -42,18 +43,18 @@ private struct StyleTile: View {
                     .font(.headline)
                 Text(style.blurb)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
                     .multilineTextAlignment(.leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(.thinMaterial)
+                    .fill(AppTheme.card)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .strokeBorder(selected ? style.tint : .clear, lineWidth: 3)
+                    .stroke(selected ? style.tint : AppTheme.border, lineWidth: selected ? 3 : 1)
             )
         }
         .buttonStyle(.plain)

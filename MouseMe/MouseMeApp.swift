@@ -15,6 +15,10 @@ struct MouseMeApp: App {
         WindowGroup {
             ContentView()
                 .environment(app)
+                #if os(iOS)
+                .preferredColorScheme(.dark)
+                .tint(AppTheme.accent)
+                #endif
         }
         #if os(macOS)
         .defaultSize(width: 480, height: 680)

@@ -38,6 +38,7 @@ struct KeyboardView: View {
                     .contentShape(Rectangle())
                     .onTapGesture { focused = false }
             }
+            .appScreenBackground()
             #if os(iOS)
             .scrollDismissesKeyboard(.interactively)
             #endif
@@ -68,6 +69,7 @@ struct KeyboardView: View {
                 }
             }
         }
+        .appScreenBackground()
         .disabled(!state.client.isConnected)
         .opacity(state.client.isConnected ? 1 : 0.5)
         .overlay(alignment: .top) {
@@ -75,7 +77,8 @@ struct KeyboardView: View {
                 Text("Connect to a helper to use the keyboard.")
                     .font(.footnote)
                     .padding(8)
-                    .background(.thinMaterial, in: Capsule())
+                    .background(AppTheme.cardRaised, in: Capsule())
+                    .foregroundStyle(AppTheme.warning)
                     .padding(.top, 8)
             }
         }
@@ -98,7 +101,11 @@ struct KeyboardView: View {
                 .padding(12)
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(.thinMaterial)
+                        .fill(AppTheme.cardRaised)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(AppTheme.border, lineWidth: 1)
                 )
                 .padding(.horizontal)
                 .onChange(of: buffer) { _, new in
@@ -288,7 +295,7 @@ private struct KeyChip: View {
             }
             .font(.callout)
             .padding(.horizontal, 12).padding(.vertical, 10)
-            .background(RoundedRectangle(cornerRadius: 10).fill(.thinMaterial))
+            .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.card))
         }
         .buttonStyle(.plain)
     }
@@ -306,12 +313,12 @@ private struct ShortcutChip: View {
         } label: {
             VStack(spacing: 2) {
                 Text(label).font(.caption.bold())
-                Text(combo).font(.caption2).foregroundStyle(.secondary)
+                Text(combo).font(.caption2).foregroundStyle(AppTheme.labelTertiary)
             }
             .frame(minWidth: 60)
             .padding(.horizontal, 12).padding(.vertical, 8)
             .background(
-                RoundedRectangle(cornerRadius: 10).fill(.thinMaterial)
+                RoundedRectangle(cornerRadius: 10).fill(AppTheme.card)
             )
         }
         .buttonStyle(.plain)
@@ -334,7 +341,7 @@ private struct MacroChip: View {
             }
             .frame(width: 84, height: 64)
             .background(
-                RoundedRectangle(cornerRadius: 12).fill(.thinMaterial)
+                RoundedRectangle(cornerRadius: 12).fill(AppTheme.card)
             )
         }
         .buttonStyle(.plain)
@@ -366,7 +373,7 @@ private struct ArrowKey: View {
                 .font(.title2)
                 .frame(width: 64, height: 56)
                 .background(
-                    RoundedRectangle(cornerRadius: 12).fill(.thinMaterial)
+                    RoundedRectangle(cornerRadius: 12).fill(AppTheme.card)
                 )
         }
         .buttonStyle(.plain)

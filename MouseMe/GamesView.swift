@@ -39,9 +39,10 @@ struct GamesView: View {
             Section {
                 Text("Both games are self-contained inside the app and do not require a helper connection.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
             }
         }
+        .appDarkListStyle()
         .navigationTitle("Games")
     }
 }

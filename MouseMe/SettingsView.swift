@@ -30,7 +30,8 @@ struct SettingsView: View {
                         Text("Sensitivity")
                         Spacer()
                         Text(String(format: "%.2f×", state.sensitivity))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.labelSecondary)
+                            .monospacedDigit()
                     }
                     Slider(value: $state.sensitivity, in: 0.25...4.0, step: 0.05)
 
@@ -38,7 +39,8 @@ struct SettingsView: View {
                         Text("Scroll speed")
                         Spacer()
                         Text(String(format: "%.2f×", state.scrollSensitivity))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.labelSecondary)
+                            .monospacedDigit()
                     }
                     Slider(value: $state.scrollSensitivity, in: 0.25...4.0, step: 0.05)
 
@@ -70,9 +72,10 @@ struct SettingsView: View {
                     LabeledContent("Default port", value: "8237")
                     Text("MouseMe on iPhone controls your Mac. Install MouseMe on both devices and connect over the same Wi‑Fi.")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.labelTertiary)
                 }
             }
+            .appDarkListStyle()
             .navigationTitle("Settings")
             .onChange(of: state.sensitivity) { _, new in
                 state.motion.sensitivity = new

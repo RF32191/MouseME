@@ -20,6 +20,7 @@ struct MediaView: View {
                 }
                 .padding()
             }
+            .appScreenBackground()
             .navigationTitle("Media")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -31,21 +32,19 @@ struct MediaView: View {
 
     private var transport: some View {
         HStack(spacing: 18) {
-            CircleControl(systemImage: "backward.end.fill", tint: .accentColor) {
+            CircleControl(systemImage: "backward.end.fill", tint: AppTheme.accent) {
                 state.client.send(.media(.prev))
             }
-            CircleControl(systemImage: "playpause.fill", tint: .accentColor, big: true) {
+            CircleControl(systemImage: "playpause.fill", tint: AppTheme.accent, big: true) {
                 state.client.send(.media(.playPause))
             }
-            CircleControl(systemImage: "forward.end.fill", tint: .accentColor) {
+            CircleControl(systemImage: "forward.end.fill", tint: AppTheme.accent) {
                 state.client.send(.media(.next))
             }
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 22).fill(.thinMaterial)
-        )
+        .appCard(radius: 22)
     }
 
     private var volumeBlock: some View {
@@ -61,7 +60,8 @@ struct MediaView: View {
                     Label("Mute", systemImage: "speaker.slash.fill")
                         .labelStyle(.iconOnly)
                         .padding(10)
-                        .background(Circle().fill(.thinMaterial))
+                        .background(Circle().fill(AppTheme.cardRaised))
+                        .overlay(Circle().stroke(AppTheme.border, lineWidth: 1))
                 }
                 .buttonStyle(.plain)
             }
@@ -75,9 +75,7 @@ struct MediaView: View {
             }
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 22).fill(.thinMaterial)
-        )
+        .appCard(radius: 22)
     }
 
     private var brightnessBlock: some View {
@@ -97,13 +95,11 @@ struct MediaView: View {
             }
             Text("Brightness keys are platform-specific. Works on Windows; on macOS the helper needs Accessibility access to send F1/F2.")
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppTheme.labelTertiary)
                 .multilineTextAlignment(.center)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 22).fill(.thinMaterial)
-        )
+        .appCard(radius: 22)
     }
 }
 
@@ -141,8 +137,12 @@ private struct StepControl: View {
                 .font(.title2)
                 .frame(maxWidth: .infinity, minHeight: 54)
                 .background(
-                    RoundedRectangle(cornerRadius: 14).fill(.thinMaterial)
+                    RoundedRectangle(cornerRadius: 14).fill(AppTheme.cardRaised)
                 )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14).stroke(AppTheme.border, lineWidth: 1)
+                )
+                .foregroundStyle(AppTheme.labelSecondary)
         }
         .buttonStyle(.plain)
     }

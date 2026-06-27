@@ -14,9 +14,10 @@ struct MouseSurfaceView: View {
             VStack(spacing: 0) {
                 connectionBar
                 sensorBar
-                Divider()
+                Rectangle().fill(AppTheme.border).frame(height: 1)
                 surface
             }
+            .appScreenBackground()
             .navigationTitle(state.style.title)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -54,19 +55,22 @@ struct MouseSurfaceView: View {
     }
 
     private var connectionBar: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 10) {
             Circle()
-                .fill(state.client.isConnected ? Color.green : Color.orange)
+                .fill(state.client.isConnected ? AppTheme.success : AppTheme.warning)
                 .frame(width: 10, height: 10)
+                .shadow(color: (state.client.isConnected ? AppTheme.success : AppTheme.warning).opacity(0.5), radius: 4)
             Text(connectionLabel)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+                .font(.footnote.weight(.medium))
+                .foregroundStyle(AppTheme.labelSecondary)
             Spacer()
             Image(systemName: state.style.symbol)
+                .font(.body.weight(.semibold))
                 .foregroundStyle(state.style.tint)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(AppTheme.surface)
     }
 
     private var sensorBar: some View {
@@ -100,7 +104,8 @@ struct MouseSurfaceView: View {
                         .labelStyle(.iconOnly)
                         .font(.callout)
                         .padding(8)
-                        .background(.thinMaterial, in: Circle())
+                        .background(AppTheme.cardRaised, in: Circle())
+                        .overlay(Circle().stroke(AppTheme.border, lineWidth: 1))
                 }
                 .buttonStyle(.plain)
                 .help("Reset the slide tracker. Pick the phone up, set it down, tap this.")
@@ -165,12 +170,15 @@ private struct SensorPill: View {
                 Image(systemName: systemImage)
                 Text(label).font(.footnote.weight(.semibold))
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 7)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
             .background(
-                Capsule().fill(isOn ? tint.opacity(0.9) : Color.gray.opacity(0.15))
+                Capsule().fill(isOn ? tint : AppTheme.cardRaised)
             )
-            .foregroundStyle(isOn ? Color.white : Color.primary)
+            .overlay(
+                Capsule().stroke(isOn ? tint.opacity(0.5) : AppTheme.border, lineWidth: 1)
+            )
+            .foregroundStyle(isOn ? Color.white : AppTheme.labelSecondary)
         }
         .buttonStyle(.plain)
         .disabled(!isAvailable)
@@ -192,14 +200,18 @@ private struct TrackpadSurface: View {
             GeometryReader { geo in
                 ZStack {
                     RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(.thinMaterial)
-                    VStack(spacing: 6) {
+                        .fill(AppTheme.card)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .stroke(AppTheme.borderStrong, lineWidth: 1)
+                        )
+                    VStack(spacing: 8) {
                         Image(systemName: "hand.point.up.left.fill")
                             .font(.title2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.accent.opacity(0.85))
                         Text("Glide to move · tap to click")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(AppTheme.labelTertiary)
                     }
                 }
                 .contentShape(Rectangle())
@@ -265,17 +277,22 @@ private struct ScrollStrip: View {
 
     var body: some View {
         RoundedRectangle(cornerRadius: 16, style: .continuous)
-            .fill(.tertiary)
+            .fill(AppTheme.cardRaised)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(AppTheme.border, lineWidth: 1)
+            )
             .overlay(
                 VStack {
                     Image(systemName: "chevron.up")
                     Spacer()
                     Image(systemName: "arrow.up.and.down")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.labelTertiary)
                     Spacer()
                     Image(systemName: "chevron.down")
                 }
-                .font(.caption)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(AppTheme.labelSecondary)
                 .padding(.vertical, 8)
             )
             .gesture(
@@ -319,10 +336,14 @@ private struct ClassicMouseSurface: View {
 
             GeometryReader { geo in
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(.thinMaterial)
+                    .fill(AppTheme.card)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .stroke(AppTheme.borderStrong, lineWidth: 1)
+                    )
                     .overlay(
                         Text("Move pad")
-                            .font(.caption).foregroundStyle(.secondary)
+                            .font(.caption.weight(.medium)).foregroundStyle(AppTheme.labelTertiary)
                     )
                     .contentShape(Rectangle())
                     .gesture(
@@ -382,8 +403,8 @@ private struct AirMouseSurface: View {
             Text(state.motion.isAvailable
                  ? (state.motion.isRunning ? "Aiming…" : "Hold trigger and aim")
                  : "Motion sensor unavailable on this device")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+                .font(.footnote.weight(.medium))
+                .foregroundStyle(AppTheme.labelSecondary)
 
             // Trigger
             Text(state.motion.isRunning ? "RELEASE" : "HOLD TO AIM")
@@ -443,9 +464,17 @@ private struct DeskSlideSurface: View {
             // Live status card
             ZStack {
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(LinearGradient(
-                        colors: [state.style.tint.opacity(0.35), state.style.tint.opacity(0.05)],
-                        startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .fill(
+                        LinearGradient(
+                            colors: [AppTheme.cardRaised, state.style.tint.opacity(0.35)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .stroke(state.style.tint.opacity(0.4), lineWidth: 1)
+                    )
                 VStack(spacing: 10) {
                     Image(systemName: state.slide.isRunning
                           ? (state.slide.stationary ? "pause.circle.fill" : "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
@@ -499,7 +528,11 @@ private struct DeskSlideSurface: View {
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: 14)
-                                .fill(.thinMaterial)
+                                .fill(AppTheme.cardRaised)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(AppTheme.border, lineWidth: 1)
                         )
                 }
                 .buttonStyle(.plain)
@@ -544,9 +577,12 @@ private struct GamingSurface: View {
                 .frame(width: 90)
                 GeometryReader { _ in
                     RoundedRectangle(cornerRadius: 24)
-                        .fill(LinearGradient(colors: [.red.opacity(0.25), .black.opacity(0.4)],
-                                             startPoint: .top, endPoint: .bottom))
-                        .overlay(Text("High-DPI Aim").font(.caption).foregroundStyle(.secondary))
+                        .fill(AppTheme.card)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24)
+                                .stroke(AppTheme.borderStrong, lineWidth: 1)
+                        )
+                        .overlay(Text("High-DPI Aim").font(.caption.weight(.medium)).foregroundStyle(AppTheme.labelTertiary))
                         .contentShape(Rectangle())
                         .gesture(
                             DragGesture(minimumDistance: 0)
@@ -680,7 +716,9 @@ private struct PresenterSurface: View {
                 Label("Gyro unavailable", systemImage: "exclamationmark.triangle.fill")
                     .font(.caption2)
                     .padding(6)
-                    .background(.thinMaterial, in: Capsule())
+                    .background(AppTheme.cardRaised, in: Capsule())
+                    .overlay(Capsule().stroke(AppTheme.border, lineWidth: 1))
+                    .foregroundStyle(AppTheme.warning)
                     .padding(8)
             }
         }
@@ -721,8 +759,13 @@ private struct ClickButton: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(.thinMaterial)
+                    .fill(AppTheme.card)
             )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(AppTheme.border, lineWidth: 1)
+            )
+            .foregroundStyle(AppTheme.labelSecondary)
         }
         .buttonStyle(.plain)
     }

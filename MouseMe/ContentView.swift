@@ -34,6 +34,12 @@ struct ContentView: View {
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gearshape") }
         }
+        .tint(AppTheme.accent)
+        .appScreenBackground()
+        .toolbarBackground(AppTheme.backgroundTop, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
+        .toolbarBackground(AppTheme.backgroundTop, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         #endif
     }
 }

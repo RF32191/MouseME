@@ -38,10 +38,10 @@ struct MoreAppsPromoView: View {
                     VStack(alignment: .leading, spacing: 3) {
                         Text(app.name)
                             .font(.body.weight(.semibold))
-                            .foregroundStyle(.primary)
+                            .foregroundStyle(.foreground)
                         Text(app.tagline)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppTheme.labelTertiary)
                             .lineLimit(2)
                     }
                     Spacer(minLength: 8)
@@ -50,7 +50,7 @@ struct MoreAppsPromoView: View {
                         .foregroundStyle(.white)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 6)
-                        .background(Capsule().fill(Color.accentColor))
+                        .background(Capsule().fill(AppTheme.accent))
                 }
             }
             .buttonStyle(.plain)
@@ -88,10 +88,10 @@ struct MoreAppsPromoView: View {
                 appIcon(app, size: 44)
                 Text(app.name)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.foreground)
                 Text(app.tagline)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppTheme.labelTertiary)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                 Text("View on App Store")
@@ -102,11 +102,11 @@ struct MoreAppsPromoView: View {
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(app.tint.opacity(0.08))
+                    .fill(AppTheme.card)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 14)
-                    .stroke(app.tint.opacity(0.22), lineWidth: 0.5)
+                    .stroke(app.tint.opacity(0.35), lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
@@ -122,7 +122,7 @@ struct MoreAppsPromoView: View {
                     Text(app.name).font(.callout.bold())
                     Text(app.tagline)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppTheme.labelTertiary)
                         .lineLimit(2)
                 }
                 Spacer()
