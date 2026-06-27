@@ -173,8 +173,9 @@ struct SetupGuideView: View {
                     .foregroundStyle(AppTheme.labelTertiary)
             }
         }
-        .appDarkListStyle()
+        .appListChrome()
         .navigationTitle("How to connect")
+        .appPageChrome()
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

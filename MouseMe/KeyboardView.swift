@@ -38,7 +38,7 @@ struct KeyboardView: View {
                     .contentShape(Rectangle())
                     .onTapGesture { focused = false }
             }
-            .appScreenBackground()
+            .appPageChrome()
             #if os(iOS)
             .scrollDismissesKeyboard(.interactively)
             #endif
@@ -69,19 +69,9 @@ struct KeyboardView: View {
                 }
             }
         }
-        .appScreenBackground()
+        .appPageChrome()
         .disabled(!state.client.isConnected)
         .opacity(state.client.isConnected ? 1 : 0.5)
-        .overlay(alignment: .top) {
-            if !state.client.isConnected {
-                Text("Connect to a helper to use the keyboard.")
-                    .font(.footnote)
-                    .padding(8)
-                    .background(AppTheme.cardRaised, in: Capsule())
-                    .foregroundStyle(AppTheme.warning)
-                    .padding(.top, 8)
-            }
-        }
     }
 
     // MARK: - Typing card
@@ -98,15 +88,7 @@ struct KeyboardView: View {
                 .textInputAutocapitalization(.never)
                 #endif
                 .autocorrectionDisabled()
-                .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(AppTheme.cardRaised)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(AppTheme.border, lineWidth: 1)
-                )
+                .textFieldStyle(AppDarkFieldStyle())
                 .padding(.horizontal)
                 .onChange(of: buffer) { _, new in
                     sendIncrementalText(new)

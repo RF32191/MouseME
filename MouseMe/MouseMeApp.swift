@@ -11,12 +11,19 @@ import SwiftUI
 struct MouseMeApp: App {
     @State private var app = AppState()
 
+    #if os(iOS)
+    init() {
+        AppThemeAppearance.configure()
+    }
+    #endif
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(app)
                 #if os(iOS)
                 .preferredColorScheme(.dark)
+                .colorScheme(.dark)
                 .tint(AppTheme.accent)
                 #endif
         }

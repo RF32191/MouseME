@@ -23,7 +23,7 @@ struct MouseStylePicker: View {
             }
             .padding()
         }
-        .appScreenBackground()
+        .appPageChrome()
         .navigationTitle("Mouse Style")
     }
 }

@@ -19,6 +19,7 @@ struct MouseSurfaceView: View {
             }
             .appScreenBackground()
             .navigationTitle(state.style.title)
+            .appPageChrome()
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -56,7 +56,7 @@ struct ConnectView: View {
                 Section {
                     MoreAppsPromoView(style: .cards)
                 } header: {
-                    Text("More from Ryan")
+                    AppSectionTitle(title:"More from Ryan")
                 }
 
                 Section {
@@ -67,13 +67,12 @@ struct ConnectView: View {
                     }
                 }
             }
-            .appDarkListStyle()
-            .listStyle(.insetGrouped)
-            .listRowBackground(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(AppTheme.card)
-            )
+            .appListChrome()
             .navigationTitle("Connect")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.large)
+            #endif
+            .appPageChrome()
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     if state.client.isConnected || state.client.transportKind != .none {
@@ -198,13 +197,14 @@ struct ConnectView: View {
                 .buttonStyle(.plain)
             }
         } header: {
-            Text("Computers nearby")
+            AppSectionTitle(title:"Computers nearby")
         }
     }
 
     private var manualSection: some View {
         Section {
             TextField("IP address (e.g. 192.168.1.20)", text: $manualHost)
+                .textFieldStyle(AppDarkFieldStyle())
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
@@ -213,6 +213,7 @@ struct ConnectView: View {
                 .keyboardType(.numbersAndPunctuation)
                 #endif
             TextField("Port", text: $manualPort)
+                .textFieldStyle(AppDarkFieldStyle())
                 #if os(iOS)
                 .keyboardType(.numberPad)
                 #endif
@@ -232,15 +233,14 @@ struct ConnectView: View {
             }
             #endif
         } header: {
-            Text("Add manually")
+            AppSectionTitle(title:"Add manually")
         } footer: {
-            Text("Use the IP shown by the MouseMe Mac app or by the Python helper.")
-                .font(.footnote)
+            AppSectionFooterText(text:"Use the IP shown by the MouseMe Mac app or by the Python helper.")
         }
     }
 
     private var moreWaysSection: some View {
-        Section("Other transports") {
+        Section {
             if state.client.transportKind == .host, let info = state.client.hostInfo {
                 VStack(alignment: .leading, spacing: 4) {
                     Label("Hosting at \(info.ip ?? "this phone"):\(info.port)",
@@ -272,6 +272,8 @@ struct ConnectView: View {
                 Label("Pair via Bluetooth", systemImage: "dot.radiowaves.left.and.right")
             }
             .disabled(state.client.transportKind == .ble)
+        } header: {
+            AppSectionTitle(title:"Other transports")
         }
     }
 
@@ -401,10 +403,12 @@ private struct DiagnosticsView: View {
                 }
             }
         }
+        .appListChrome()
         .navigationTitle("Diagnostics")
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .appPageChrome()
     }
 }
 

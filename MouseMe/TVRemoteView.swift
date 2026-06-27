@@ -58,12 +58,15 @@ struct TVRemoteView: View {
                 }
                 .padding()
             }
-            .appScreenBackground()
+            .appPageChrome()
             .navigationTitle("TV Remote")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
         }
+        .disabled(!state.client.isConnected)
+        .opacity(state.client.isConnected ? 1 : 0.5)
+        .preferredColorScheme(.dark)
     }
 
     // MARK: - Chrome
@@ -134,6 +137,7 @@ struct TVRemoteView: View {
 
             HStack(spacing: 8) {
                 TextField("Or enter IP (192.168.1.50)", text: $manualIP)
+                    .textFieldStyle(AppDarkFieldStyle())
                     #if os(iOS)
                     .keyboardType(.decimalPad)
                     #endif

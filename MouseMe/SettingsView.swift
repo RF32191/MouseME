@@ -75,8 +75,9 @@ struct SettingsView: View {
                         .foregroundStyle(AppTheme.labelTertiary)
                 }
             }
-            .appDarkListStyle()
+            .appListChrome()
             .navigationTitle("Settings")
+            .appPageChrome()
             .onChange(of: state.sensitivity) { _, new in
                 state.motion.sensitivity = new
             }

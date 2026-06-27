@@ -20,12 +20,13 @@ struct MediaView: View {
                 }
                 .padding()
             }
-            .appScreenBackground()
+            .appPageChrome()
             .navigationTitle("Media")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
         }
+        .appPageChrome()
         .disabled(!state.client.isConnected)
         .opacity(state.client.isConnected ? 1 : 0.5)
     }

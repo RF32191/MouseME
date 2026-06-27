@@ -42,8 +42,9 @@ struct GamesView: View {
                     .foregroundStyle(AppTheme.labelTertiary)
             }
         }
-        .appDarkListStyle()
+        .appListChrome()
         .navigationTitle("Games")
+        .appPageChrome()
     }
 }
 
