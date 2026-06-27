@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct MouseMeApp: App {
+    @State private var app = AppState()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(app)
         }
+        #if os(macOS)
+        .defaultSize(width: 480, height: 680)
+        #endif
     }
 }

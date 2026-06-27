@@ -8,17 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AppState.self) private var state
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        #if os(macOS)
+        MacReceiverView()
+        #else
+        TabView {
+            MouseSurfaceView()
+                .tabItem { Label("Mouse", systemImage: "cursorarrow.motionlines") }
+
+            KeyboardView()
+                .tabItem { Label("Keyboard", systemImage: "keyboard") }
+
+            MediaView()
+                .tabItem { Label("Media", systemImage: "playpause.fill") }
+
+            TVRemoteView()
+                .tabItem { Label("TV", systemImage: "tv") }
+
+            ConnectView()
+                .tabItem { Label("Connect", systemImage: "antenna.radiowaves.left.and.right") }
+                .badge(state.client.isConnected ? nil : "!")
+
+            SettingsView()
+                .tabItem { Label("Settings", systemImage: "gearshape") }
         }
-        .padding()
+        #endif
     }
 }
 
 #Preview {
     ContentView()
+        .environment(AppState())
 }
