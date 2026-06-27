@@ -245,9 +245,9 @@ struct MacReceiverView: View {
                 Image(systemName: "square.grid.2x2.fill")
                 Text("More from Ryan").bold()
             }
-            Text("Other apps by the same developer — open in the App Store.")
+            Text("Other apps by the same developer — tap Get to open the App Store.")
                 .font(.callout)
-            MoreAppsPromoView(style: .panel)
+            AppPromoBannersView(showHeader: false)
         }
     }
 

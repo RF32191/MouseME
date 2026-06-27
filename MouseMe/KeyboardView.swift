@@ -29,6 +29,10 @@ struct KeyboardView: View {
                     Divider().padding(.horizontal)
                     Text("Function keys").font(.headline)
                     functionKeyRow
+
+                    AppPromoBannersView()
+                        .padding(.horizontal)
+                        .padding(.top, 8)
                 }
                 .padding(.vertical)
                 // Empty space at the bottom that captures background taps

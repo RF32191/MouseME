@@ -54,7 +54,10 @@ struct ConnectView: View {
                 moreWaysSection
 
                 Section {
-                    MoreAppsPromoView(style: .cards)
+                    AppPromoBannersView()
+                        .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                 } header: {
                     AppSectionTitle(title:"More from Ryan")
                 }

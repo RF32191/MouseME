@@ -41,6 +41,15 @@ struct GamesView: View {
                     .font(.footnote)
                     .foregroundStyle(AppTheme.labelTertiary)
             }
+
+            Section {
+                AppPromoBannersView()
+                    .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+            } header: {
+                AppSectionTitle(title: "More from Ryan")
+            }
         }
         .appListChrome()
         .navigationTitle("Games")

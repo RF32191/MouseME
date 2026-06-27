@@ -32,7 +32,6 @@ struct DeveloperApp: Identifiable, Hashable {
 }
 
 enum DeveloperApps {
-    /// Cross-promotion catalog. Add new apps here with their App Store ID.
     static let catalog: [DeveloperApp] = [
         DeveloperApp(
             id: "opendesign",
@@ -45,10 +44,18 @@ enum DeveloperApps {
         DeveloperApp(
             id: "mogme",
             name: "MogMe",
-            tagline: "Facial analysis, fitness, and AI coaching.",
+            tagline: "Mog better with AI — face, body, fitness & games.",
             appStoreID: "6757411615",
             symbolName: "sparkles",
             tint: .orange
+        ),
+        DeveloperApp(
+            id: "lifeinc",
+            name: "Life Incorporated",
+            tagline: "Create and perfect life — evolve from spark to civilization.",
+            appStoreID: "6774629901",
+            symbolName: "leaf.fill",
+            tint: .green
         ),
     ]
 

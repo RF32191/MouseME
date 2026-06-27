@@ -16,6 +16,16 @@ struct MouseSurfaceView: View {
                 sensorBar
                 Rectangle().fill(AppTheme.border).frame(height: 1)
                 surface
+                    .layoutPriority(1)
+
+                #if os(iOS)
+                ScrollView {
+                    AppPromoBannersView()
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                }
+                .frame(maxHeight: 260)
+                #endif
             }
             .appScreenBackground()
             .navigationTitle(state.style.title)

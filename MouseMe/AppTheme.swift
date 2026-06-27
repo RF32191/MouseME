@@ -114,19 +114,7 @@ extension View {
 
     /// Dark list/form chrome — plain style so iPad doesn't force white grouped cards.
     func appListChrome() -> some View {
-        scrollContentBackground(.hidden)
-            .background(AppTheme.background.ignoresSafeArea())
-            .listStyle(.plain)
-            .listSectionSpacing(12)
-            .listRowSeparatorTint(AppTheme.border)
-            .listRowBackground(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(AppTheme.card)
-                    .padding(.vertical, 2)
-            )
-            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-            .foregroundStyle(AppTheme.labelPrimary)
-            .tint(AppTheme.accent)
+        modifier(AppListChromeModifier())
     }
 
     func appDarkListStyle() -> some View {
@@ -145,11 +133,41 @@ extension View {
     }
 
     func appPageChrome() -> some View {
-        preferredColorScheme(.dark)
+        modifier(AppPageChromeModifier())
+    }
+}
+
+private struct AppListChromeModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .scrollContentBackground(.hidden)
+            .background(AppTheme.background.ignoresSafeArea())
+            .listStyle(.plain)
+            #if os(iOS)
+            .listSectionSpacing(12)
+            #endif
+            .listRowSeparatorTint(AppTheme.border)
+            .listRowBackground(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(AppTheme.card)
+                    .padding(.vertical, 2)
+            )
+            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+            .foregroundStyle(AppTheme.labelPrimary)
+            .tint(AppTheme.accent)
+    }
+}
+
+private struct AppPageChromeModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .preferredColorScheme(.dark)
             .colorScheme(.dark)
             .appScreenBackground()
+            #if os(iOS)
             .toolbarBackground(AppTheme.surface, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
+            #endif
     }
 }

@@ -17,6 +17,9 @@ struct MediaView: View {
                     transport
                     volumeBlock
                     brightnessBlock
+
+                    AppPromoBannersView()
+                        .padding(.top, 8)
                 }
                 .padding()
             }

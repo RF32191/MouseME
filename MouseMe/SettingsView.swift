@@ -60,11 +60,16 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    MoreAppsPromoView(style: .list)
+                    AppPromoBannersView(showHeader: false)
+                        .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                 } header: {
                     Text("More from Ryan")
                 } footer: {
                     Text("Tap Get to open the App Store.")
+                        .font(.footnote)
+                        .foregroundStyle(AppTheme.labelTertiary)
                 }
 
                 Section("About") {

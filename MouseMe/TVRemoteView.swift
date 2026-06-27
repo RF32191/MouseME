@@ -55,6 +55,9 @@ struct TVRemoteView: View {
                     discoverySection
                     layoutPicker
                     remoteBody
+
+                    AppPromoBannersView()
+                        .padding(.top, 4)
                 }
                 .padding()
             }
